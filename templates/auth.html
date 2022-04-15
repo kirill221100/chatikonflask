@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>auth</title>
+</head>
+<body>
+    <a href="{{url_for('register')}}">Register</a>
+    <a href="{{url_for('login')}}">Login</a>
+    <form action="" method="post">
+    {{ form.csrf_token()}}
+    {{ form.name.label()}}
+    {{ form.name()}}
+    {{ form.password.label()}}
+    {{ form.password()}}
+    {{ form.submit()}}
+    </form>
+</body>
+</html>
