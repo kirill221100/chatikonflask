@@ -4,6 +4,7 @@
     <title>Flask_Chat_App</title>
   </head>
   <body>
+    <a href="{{url_for('logout')}}">Logout</a>
     <h3>Hello, {{session.get('name')}}</h3>
     <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
     <div class="message_holder" style="width: 550px; height: 550px; line-height: 3em; overflow:scroll; border: thin #000 solid; padding: 5px;">>

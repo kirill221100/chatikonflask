@@ -5,12 +5,22 @@
     <title>auth</title>
 </head>
 <body>
-    <a href="{{url_for('register')}}">Register</a>
-    <a href="{{url_for('login')}}">Login</a>
+    <a href="{{url_for('register')}}">If you're not registered</a>
+    <a href="{{url_for('login')}}">If you're not registered but not logged</a>
     <form action="" method="post">
+    {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                  {% for message in messages %}
+                    <p>{{ message }}</p>
+                  {% endfor %}
+                {% endif %}
+            {% endwith %}
     {{ form.csrf_token()}}
     {{ form.name.label()}}
     {{ form.name()}}
+    {% for error in form.name.errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
     {{ form.password.label()}}
     {{ form.password()}}
     {{ form.submit()}}

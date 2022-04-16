@@ -8,7 +8,7 @@ import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("URI")
 socketio = SocketIO(app)
 db = SQLAlchemy(app)
 
@@ -32,14 +32,18 @@ def is_nick_exist(form, field):
     if db.session.query(User).filter(User.name == field.data).first():
         raise ValidationError('This nickname is taken')
 
-class UserForm(FlaskForm):
+class RegForm(FlaskForm):
     name = StringField('Nickname', validators=[DataRequired(), Length(min=1, max=10), is_nick_exist])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=1, max=10)])
+    submit = SubmitField('Submit')
+class LogForm(FlaskForm):
+    name = StringField('Nickname', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
     if session.get('name') == None:
         return redirect(url_for('login'))
@@ -47,7 +51,9 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = UserForm()
+    if session.get('name') != None:
+        return redirect(url_for('index'))
+    form = RegForm()
     if form.validate_on_submit():
         db.session.add(User(name=form.name.data, password=form.password.data))
         db.session.commit()
@@ -57,7 +63,9 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = UserForm()
+    if session.get('name') != None:
+        return redirect(url_for('index'))
+    form = LogForm()
     if form.validate_on_submit():
         usr = db.session.query(User).filter(User.name == form.name.data).first()
         if usr.password == form.password.data:
