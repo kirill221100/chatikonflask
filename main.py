@@ -39,7 +39,7 @@ class UserForm(FlaskForm):
 
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if session.get('name') == None:
         return redirect(url_for('login'))
