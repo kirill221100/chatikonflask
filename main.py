@@ -68,7 +68,10 @@ def login():
     form = LogForm()
     if form.validate_on_submit():
         usr = db.session.query(User).filter(User.name == form.name.data).first()
-        if usr.password == form.password.data:
+        if usr == None:
+            flash('This name is not registered')
+            return redirect(url_for('login'))
+        elif usr.password == form.password.data:
             session['name'] = form.name.data
             return redirect(url_for('index'))
         else:
