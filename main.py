@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
+app.config['SECRET_KEY'] = 'vnkdjnfjknfl12312#'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("URI")
 socketio = SocketIO(app)
 db = SQLAlchemy(app)
